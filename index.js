@@ -10,8 +10,9 @@ const app = express();
 // ✅ Updated CORS: Only allow Vercel frontend
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://react-js-front-0225.vercel.app'
+  'https://react-js-front-0225-71xpjxtq5.vercel.app'
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
