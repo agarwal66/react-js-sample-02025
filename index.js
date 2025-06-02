@@ -8,7 +8,10 @@ const Task = require('./models/Task');
 const app = express();
 
 // ✅ Updated CORS: Only allow Vercel frontend
-const allowedOrigins = ['https://react-js-front-0225-71xpjxtq5.vercel.app'];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://react-js-front-0225.vercel.app'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -19,6 +22,7 @@ app.use(cors({
     }
   }
 }));
+
 
 app.use(express.json());
 
