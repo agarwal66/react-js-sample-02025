@@ -13,9 +13,9 @@ const allowedOrigins = [
   'https://react-js-front-0225-71xpjxtq5.vercel.app'
 ];
 
-
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Request from origin:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
