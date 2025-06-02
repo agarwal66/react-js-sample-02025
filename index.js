@@ -9,7 +9,7 @@ const app = express();
 // ✅ CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://react-js-front-0225-71xpjxtq5.vercel.app'
+  'https://react-js-front-0225.vercel.app'
 ];
 
 app.use(cors({
