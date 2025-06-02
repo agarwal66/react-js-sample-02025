@@ -4,10 +4,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const Task = require('./models/Task');
-
 const app = express();
 
-// ✅ Updated CORS: Only allow Vercel frontend
+// ✅ Final, safe CORS config for BOTH localhost and Vercel
 const allowedOrigins = [
   'http://localhost:3000',
   'https://react-js-front-0225-71xpjxtq5.vercel.app'
@@ -15,25 +14,22 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    console.log("Request from origin:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
+      console.log('✅ CORS allowed for:', origin);
       callback(null, true);
     } else {
+      console.log('❌ CORS blocked for:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   }
 }));
 
-
-
 app.use(express.json());
 
-// ✅ MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err));
+// ✅ MongoDB Connect
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error(err));
 
 // ✅ Routes
 app.get('/tasks', async (req, res) => {
