@@ -6,22 +6,33 @@ require('dotenv').config();
 const Task = require('./models/Task');
 const app = express();
 
-// ✅ FULL AND FINAL CORS FIX
+// ✅ CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://react-js-front-0225-71xpjxtq5.vercel.app'
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://react-js-front-0225-71xpjxtq5.vercel.app'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
 }));
 
 app.use(express.json());
 
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+  .catch(err => console.error('MongoDB connection error:', err));
 
+// ✅ Routes
 app.get('/tasks', async (req, res) => {
   const tasks = await Task.find();
   res.json(tasks);
